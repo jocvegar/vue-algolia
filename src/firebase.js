@@ -1,6 +1,6 @@
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
+import { firebase } from '@firebase/app'
+import '@firebase/auth'
+import '@firebase/firestore'
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -21,11 +21,12 @@ const db = firebase.firestore()
 const auth = firebase.auth()
 
 // collection references
-const productsCollection = db.collection('users')
+const productsCollection = db.collection('products')
 
 // export utils/refs
 export {
   db,
   auth,
+  firebase,
   productsCollection,
 }

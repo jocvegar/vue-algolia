@@ -6,6 +6,9 @@
           Algolia POC by {{user.name}}
         </h2>
       </v-col>
+      <v-btn @click="addProduct()"> 
+        Add product
+      </v-btn>
     </v-row>
     <v-form>
       <v-container>
@@ -21,10 +24,20 @@
         </v-row>
       </v-container>
     </v-form>
+    
+    <v-list-item two-line v-for="product in products" :key="product.id">
+      <v-list-item-content>
+        <v-list-item-title>{{product.name}}</v-list-item-title>
+        <v-list-item-subtitle>{{product.description}}</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+    
   </v-container>
 </template>
 
 <script>
+
+import { firebase, productsCollection } from "@/firebase"
 
 export default {
   name: 'HelloWorld',
@@ -36,8 +49,34 @@ export default {
         company: this.$faker().company.companyName(),
       },
       searchQuery: "",
+      products: []
     }
   },
-
+  created() {
+    this.getProducts()
+  },
+  methods: {
+    getProducts() {
+      productsCollection
+      .orderBy("createdAt", "desc")
+      .get()
+      .then(products => {
+        const productsArray = []
+        products.docs.forEach(product => {
+          productsArray.push(Object.assign({id: product.id}, product.data()))
+        })
+        this.products = productsArray
+      })
+    },
+    addProduct() {
+      productsCollection.add({
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        description: this.$faker().commerce.productDescription(),
+        name: this.$faker().commerce.product(),
+      }).then(() => {
+        this.getProducts()
+      }).catch(error => console.log("error: ", error))
+    }
+  }
 }
 </script>

@@ -7,6 +7,7 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 Vue.use(require('vue-faker'));
+
 new Vue({
   router,
   store,
