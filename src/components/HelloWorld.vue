@@ -6,7 +6,7 @@
           Algolia POC by {{user.name}}
         </h2>
       </v-col>
-      <v-btn @click="addProduct()"> 
+      <v-btn @click="addProduct()" class="mx-auto" color="primary" elevation="5"> 
         Add product
       </v-btn>
     </v-row>

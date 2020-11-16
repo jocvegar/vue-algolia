@@ -2,11 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import { auth } from './firebase'
+import InstantSearch from 'vue-instantsearch';
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
+
 Vue.use(require('vue-faker'));
+Vue.use(InstantSearch);
 
 new Vue({
   router,
