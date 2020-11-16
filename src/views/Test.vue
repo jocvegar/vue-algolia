@@ -10,8 +10,8 @@
                         </ais-search-box> -->
                         <ais-search-box>
                             <app-debounced-search-box 
-                                :delay="1000"
-                                placeholder="buscar dentro de 3,291 productos..."/>
+                                :delay="1000"/>
+                                <!-- placeholder="buscar dentro de 3,291 productos..."/> -->
                         </ais-search-box>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -36,7 +36,6 @@
             </ais-hits>
             <v-spacer></v-spacer>
             <ais-pagination 
-                :total-pages="5"
                 :padding="2" 
             />
         </ais-instant-search>
@@ -76,7 +75,7 @@ body {
   margin-bottom: 1em;
 }
 .ais-HitsPerPage-select {
-    padding: .25em 3em .25em 2em;
+    padding: 1em 3em 1em 2em;
 }
 .ais-SearchBox-input {
     padding: 0.25em 0.7em;

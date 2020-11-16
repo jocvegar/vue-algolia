@@ -1,5 +1,12 @@
 <template>
-  <input type="search" v-model="query" class="ais-SearchBox-input" />
+  <!-- <input type="search" v-model="query" class="ais-SearchBox-input" /> -->
+   <v-text-field
+    type="search"
+    v-model="query"
+    label="🔎 buscar (3,291 productos)"
+    outlined
+    clearable
+  ></v-text-field>
 </template>
 
 <script>
