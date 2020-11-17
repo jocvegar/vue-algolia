@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="px-16"> 
     <div class="vis-container">
       <ais-instant-search :search-client="searchClient" index-name="products">
         <ais-autocomplete>
@@ -9,10 +9,11 @@
               label="🔎 buscar productos"
               outlined
               clearable
+              class="mb-n5"
               @input="refine($event)"
             ></v-text-field>
             <div v-if="currentRefinement">
-              <div v-for="index in indices" :key="index.label">
+              <v-card v-for="index in indices" :key="index.label">
                 <v-list-item v-for="hit in index.hits" :key="hit.objectID">
                   <v-list-item-content>
                     <v-list-item-title>
@@ -20,7 +21,7 @@
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
-              </div>
+              </v-card>
             </div>
           </div>
         </ais-autocomplete>
