@@ -24,6 +24,9 @@
                     </v-col>
                 </v-row>
             </v-container>
+            <div class="text-center">
+                <code>Example using per page, pagination, highlighting and debounce response de 1 sec.</code>
+            </div>
             <v-spacer></v-spacer>
             <ais-hits>
                 <div slot="item" slot-scope="{ item }">

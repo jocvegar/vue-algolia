@@ -5,6 +5,12 @@
         <h2 class="font-weight-bold">
           Algolia POC
         </h2>
+        <code>
+          Add items to firestore, triggers function to app in algolia index
+        </code>
+        <code>
+          name and description highlighting
+        </code>
       </v-col>
       <v-btn @click="addActor()" class="mx-auto" color="primary" elevation="5"> 
         Add actor {{actorName}} 

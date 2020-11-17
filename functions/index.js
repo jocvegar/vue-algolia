@@ -22,4 +22,4 @@ exports.updateIndex = functions.firestore.document(`actors/{actorId}`)
     })
 
 exports.deleteIndex = functions.firestore.document(`actors/{actorId}`)
-    .onDelete(snapshot => index.deleteBy({objectID: snapshot.id}))
+    .onDelete(snapshot => index.deleteBy({'objectID': snapshot.id}))

@@ -12,6 +12,9 @@
               class="mb-n5"
               @input="refine($event)"
             ></v-text-field>
+            <div class="text-center">
+                <code>Example using autocomplete and highlighting</code>
+            </div>
             <div v-if="currentRefinement">
               <v-card v-for="index in indices" :key="index.label">
                 <v-list-item v-for="hit in index.hits" :key="hit.objectID">
