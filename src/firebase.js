@@ -21,12 +21,12 @@ const db = firebase.firestore()
 const auth = firebase.auth()
 
 // collection references
-const productsCollection = db.collection('products')
+const actorsCollection = db.collection('actors')
 
 // export utils/refs
 export {
   db,
   auth,
   firebase,
-  productsCollection,
+  actorsCollection,
 }

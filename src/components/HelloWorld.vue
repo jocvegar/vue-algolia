@@ -3,11 +3,11 @@
     <v-row class="text-center">
       <v-col cols="12"  class="mb-1">
         <h2 class="font-weight-bold">
-          Algolia POC by {{user.name}}
+          Algolia POC
         </h2>
       </v-col>
-      <v-btn @click="addProduct()" class="mx-auto" color="primary" elevation="5"> 
-        Add product
+      <v-btn @click="addActor()" class="mx-auto" color="primary" elevation="5"> 
+        Add actor {{actorName}} 
       </v-btn>
     </v-row>
     <v-form>
@@ -25,10 +25,10 @@
       </v-container>
     </v-form>
     
-    <v-list-item two-line v-for="product in products" :key="product.id">
+    <v-list-item two-line v-for="actor in actors" :key="actor.id">
       <v-list-item-content>
-        <v-list-item-title>{{product.name}}</v-list-item-title>
-        <v-list-item-subtitle>{{product.description}}</v-list-item-subtitle>
+        <v-list-item-title>{{actor.name}}</v-list-item-title>
+        <v-list-item-subtitle>{{actor.description}}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     
@@ -37,44 +37,41 @@
 
 <script>
 
-import { firebase, productsCollection } from "@/firebase"
+import { firebase, actorsCollection } from "@/firebase"
 
 export default {
   name: 'HelloWorld',
   data() {
     return {
-      user: {
-        name: this.$faker().name.findName(),
-        email: this.$faker().internet.email(),
-        company: this.$faker().company.companyName(),
-      },
       searchQuery: "",
-      products: []
+      actors: [],
+      actorName: ""
     }
   },
   created() {
-    this.getProducts()
+    this.getActors()
   },
   methods: {
-    getProducts() {
-      productsCollection
+    getActors() {
+      actorsCollection
       .orderBy("createdAt", "desc")
       .get()
-      .then(products => {
-        const productsArray = []
-        products.docs.forEach(product => {
-          productsArray.push(Object.assign({id: product.id}, product.data()))
+      .then(actors => {
+        const actorsArray = []
+        actors.docs.forEach(actor => {
+          actorsArray.push(Object.assign({id: actor.id}, actor.data()))
         })
-        this.products = productsArray
+        this.actors = actorsArray
+        this.actorName = this.$faker().name.findName()
       })
     },
-    addProduct() {
-      productsCollection.add({
+    addActor() {
+      actorsCollection.add({
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        description: this.$faker().commerce.productDescription(),
-        name: this.$faker().commerce.product(),
+        description: this.$faker().lorem.sentence(),
+        name: this.actorName,
       }).then(() => {
-        this.getProducts()
+        this.getActors()
       }).catch(error => console.log("error: ", error))
     }
   }
