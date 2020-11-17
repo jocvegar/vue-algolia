@@ -6,8 +6,9 @@
           Algolia POC
         </h2>
         <code>
-          Add items to firestore, triggers function to app in algolia index
+          Add items to firestore, triggers function to update algolia index
         </code>
+        <br>
         <code>
           name and description highlighting
         </code>
