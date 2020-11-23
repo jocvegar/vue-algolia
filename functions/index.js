@@ -25,7 +25,7 @@ exports.deleteIndex = functions.firestore.document(`actors/{actorId}`)
     .onDelete(snapshot => index.deleteBy({'objectID': snapshot.id}))
 
 exports.exportActorsToJson = functions.https.onRequest((request, response) => {
-    db.collection("actors").get().then(function(querySnapshot) {
+    functions.firestore.collection("actors").get().then(function(querySnapshot) {
         const actors = [];
         var actor = null
 
