@@ -29,10 +29,10 @@ exports.deleteIndex = functions.firestore.document(`actors/{actorId}`)
 exports.exportActorsToJson = functions.https.onRequest((request, response) => {
     admin.firestore().collection("actors").get().then(function(querySnapshot) {
         const actors = [];
-        var actor = null
-
+        
         querySnapshot.forEach(doc => {
-            actors.push(Object.assign({id: doc.id}, doc.data()))
+            let whiteListedAttrs = { "name": doc.data().name, "description": doc.data().description }
+            actors.push(Object.assign({"objectID": doc.id}, whiteListedAttrs))
         });
 
         response.send(JSON.stringify(actors))

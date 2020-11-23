@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       searchQuery: "",
-      actors: [],
+      // actors: [],
       actorName: "",
       searchClient: algoliasearch(
         process.env.VUE_APP_ALGOLIA_ID,
@@ -75,22 +75,23 @@ export default {
     }
   },
   created() {
-    this.getActors()
+    // this.getActors()
+    this.actorName = this.$faker().name.findName()
   },
   methods: {
-    getActors() {
-      actorsCollection
-      .orderBy("createdAt", "desc")
-      .get()
-      .then(actors => {
-        const actorsArray = []
-        actors.docs.forEach(actor => {
-          actorsArray.push(Object.assign({id: actor.id}, actor.data()))
-        })
-        this.actors = actorsArray
-        this.actorName = this.$faker().name.findName()
-      })
-    },
+    // getActors() {
+    //   actorsCollection
+    //   .orderBy("createdAt", "desc")
+    //   .get()
+    //   .then(actors => {
+    //     const actorsArray = []
+    //     actors.docs.forEach(actor => {
+    //       actorsArray.push(Object.assign({id: actor.id}, actor.data()))
+    //     })
+    //     this.actors = actorsArray
+    //     this.actorName = this.$faker().name.findName()
+    //   })
+    // },
     addActor() {
       actorsCollection.add({
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
