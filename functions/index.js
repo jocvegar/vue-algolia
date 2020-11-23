@@ -23,3 +23,21 @@ exports.updateIndex = functions.firestore.document(`actors/{actorId}`)
 
 exports.deleteIndex = functions.firestore.document(`actors/{actorId}`)
     .onDelete(snapshot => index.deleteBy({'objectID': snapshot.id}))
+
+exports.exportActorsToJson = functions.https.onRequest((request, response) => {
+    db.collection("actors").get().then(function(querySnapshot) {
+        const actors = [];
+        var actor = null
+
+        querySnapshot.forEach(doc => {
+            actors.push(Object.assign({id: doc.id}, doc.data()))
+        });
+
+        response.send(JSON.stringify(actors))
+        return true
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+        return false
+    });
+})
