@@ -1,6 +1,6 @@
 <template>
   <!-- <input type="search" v-model="query" class="ais-SearchBox-input" /> -->
-   <v-text-field
+  <v-text-field
     type="search"
     v-model="query"
     label="🔎 buscar (3,291 productos)"
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { connectSearchBox } from 'instantsearch.js/es/connectors';
-import { createWidgetMixin } from 'vue-instantsearch';
+import { connectSearchBox } from "instantsearch.js/es/connectors";
+import { createWidgetMixin } from "vue-instantsearch";
 export default {
   mixins: [createWidgetMixin({ connector: connectSearchBox })],
   props: {
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       timerId: null,
-      localQuery: '',
+      localQuery: "",
     };
   },
   destroyed() {
@@ -53,8 +53,8 @@ export default {
 
 <style>
 .ais-Highlight-highlighted {
-  background: #EF6A25;
+  background: #ef6a25;
   font-style: normal;
-  color:rgb(245, 245, 245);
+  color: rgb(245, 245, 245);
 }
 </style>

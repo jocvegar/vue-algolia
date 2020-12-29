@@ -9,10 +9,12 @@
           src="@/assets/search.png"
           transition="scale-transition"
           width="40"
-          @click="goHome()"/>
-        <v-toolbar-title 
-          @click="goHome()" 
-          class="shrink mt-1 hidden-sm-and-down font-weight-bold">
+          @click="goHome()"
+        />
+        <v-toolbar-title
+          @click="goHome()"
+          class="shrink mt-1 hidden-sm-and-down font-weight-bold"
+        >
           Algolia POC
         </v-toolbar-title>
       </div>
@@ -20,24 +22,24 @@
       <v-spacer></v-spacer>
 
       <router-link class="white--text mx-5" to="/test">Test</router-link> |
-      <router-link class="white--text mx-5" to="/test2">Test 2</router-link> 
+      <router-link class="white--text mx-5" to="/test2">Test 2</router-link>
     </v-app-bar>
 
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
-  name: 'App',
-  components: { },
-  data: () => ({ }),
+  name: "App",
+  components: {},
+  data: () => ({}),
   methods: {
-    goHome () {
-      this.$router.push("/")
-    }
+    goHome() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
