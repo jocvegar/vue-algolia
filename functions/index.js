@@ -1,11 +1,14 @@
-import moment from "moment-timezone";
+const moment = require("moment-timezone");
 
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 
 const algoliasearch = require("algoliasearch");
-const APP_ID = functions.config().algolia.app;
-const ADMIN_KEY = functions.config().algolia.key;
+// const APP_ID = functions.config().algolia.app;
+// const ADMIN_KEY = functions.config().algolia.key;
+const APP_ID = "functions.config().algolia.app";
+const ADMIN_KEY = "functions.config().algolia.key";
+
 const client = algoliasearch(APP_ID, ADMIN_KEY);
 const index = client.initIndex("actors");
 let dayNow = "";
@@ -72,28 +75,45 @@ exports.scheduledAvailabeZonesaFunction = functions.pubsub
   .schedule("01 8,20 * * * ")
   .timeZone("America/Tegucigalpa")
   .onRun((context) => {
-    generateCurrentDayAndTime();
-    console.log("context", context);
-    // db.collection("zones")
-    //   .where("deleted", "==", false)
-    //   .where("active", "==", true)
-    //   .get()
-    //   .then((zones) => {
-    //     const zonesArray = [];
-    //     zones.docs.forEach((zone) => {
-    //       zonesArray.push(Object.assign({ id: zone.id }, zone.data()));
-    //     });
-    //   })
-    //   .catch(function(error) {
-    //     console.error("Error: ", error);
-    //     return false;
-    //   });
+    getCurrentDayAndTime();
+    let availableZonesArray = [];
 
-    // db.doc("timers/timer1").update({ time: admin.firestore.Timestamp.now() });
-    // return console.log("This will be running at 8:01am and 8:01pm");
+    db.collection("zones")
+      .where("deleted", "==", false)
+      .where("active", "==", true)
+      .get()
+      .then((zones) => {
+        zones.docs.forEach((zone) => {
+          let schedule = zone.data().schedule;
+          if (schedule) {
+            let times = schedule[dayNow];
+            if (!times || times.length == 0) {
+              availableZonesArray.push(zone.data());
+            } else {
+              times.forEach((time) => {
+                if (
+                  time.availableFrom < timeNow &&
+                  time.availableTo > timeNow
+                ) {
+                  availableZonesArray.push(zone.data());
+                }
+              });
+            }
+          } else {
+            availableZonesArray.push(zone.data());
+          }
+        });
+        generateAvailableCoverageZoneObject(availableZonesArray);
+      })
+      .catch(function(error) {
+        console.error("Error: ", error);
+        return false;
+      });
+
+    return console.log("availableCovergeZone updated!");
   });
 
-generateCurrentDayAndTime = () => {
+getCurrentDayAndTime = () => {
   let arr = moment()
     .tz("America/Tegucigalpa")
     .format("YYYY, MM, DD, HH, mm, ss, 0")
@@ -125,9 +145,6 @@ generateCurrentDayAndTime = () => {
   let s = seconds_with_leading_zeros(date);
 
   timeNow = `${h}:${m}:${s}`;
-
-  console.log("dayNow ", dayNow);
-  console.log("timeNow ", timeNow);
 };
 
 minutes_with_leading_zeros = (date) => {
@@ -140,4 +157,38 @@ hours_with_leading_zeros = (date) => {
 
 seconds_with_leading_zeros = (date) => {
   return (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+};
+
+generateAvailableCoverageZoneObject = (availableZones) => {
+  let tempText = "";
+  let str1 = `{"type": "FeatureCollection", "features": [`;
+  let str2 = "]}";
+
+  availableZones.forEach((availableZone) => {
+    tempText += `
+			{"type": "Feature",
+				"properties": {
+					"name": "${availableZone.name}",
+					"color": "${availableZone.color}",
+				},
+				${availableZone.geoJson}
+			},`;
+  });
+  const mainText = tempText.slice(0, -1);
+  let availableCoverageZone = str1 + mainText + str2;
+  updateSettingAvailableCoverZone(availableCoverageZone);
+};
+
+updateSettingAvailableCoverZone = (availableCovergeZone) => {
+  db.collection("settingsTest")
+    .doc("global")
+    .update({
+      availableCovergeZone: availableCovergeZone,
+    })
+    .then(() => {
+      console.log("updated succesfully!");
+    })
+    .catch((err) => {
+      console.log("error: ", err);
+    });
 };
