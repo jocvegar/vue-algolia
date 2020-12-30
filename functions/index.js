@@ -58,6 +58,7 @@ exports.exportActorsToJson = functions.https.onRequest((request, response) => {
 
 exports.scheduledFunction = functions.pubsub
   .schedule("01 8,20 * * * ")
+  .timeZone("America/Tegucigalpa")
   .onRun((context) => {
     db.doc("timers/timer1").update({ time: admin.firestore.Timestamp.now() });
     return console.log("This will be running at 8:01am and 8:01pm");
