@@ -6,9 +6,10 @@ const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
 const client = algoliasearch(APP_ID, ADMIN_KEY);
 const index = client.initIndex("actors");
-const db = admin.firestore();
 
 admin.initializeApp();
+
+const db = admin.firestore();
 
 exports.addToIndex = functions.firestore
   .document(`actors/{actorId}`)
@@ -56,8 +57,8 @@ exports.exportActorsToJson = functions.https.onRequest((request, response) => {
 });
 
 exports.scheduledFunction = functions.pubsub
-  .schedule("every 1 minute")
+  .schedule("01 8,20 * * * ")
   .onRun((context) => {
     db.doc("timers/timer1").update({ time: admin.firestore.Timestamp.now() });
-    return console.log("This will be run every 1 minute!");
+    return console.log("This will be running at 8:01am and 8:01pm");
   });
