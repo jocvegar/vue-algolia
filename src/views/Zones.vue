@@ -7,7 +7,7 @@
           <v-btn @click="generateCoverageZoneObject()" class="ml-8">
             Actualizar cobertura
           </v-btn>
-          <v-btn @click="generateAvailableCoverageZoneObject()" class="ml-8">
+          <v-btn @click="getCurrentTimeAndDay()" class="ml-8">
             Actualizar cobertura disponible
           </v-btn>
           <v-btn @click="availableZoneChecker()" class="ml-8">
@@ -128,7 +128,7 @@ export default {
       });
       const mainText = tempText.slice(0, -1);
       this.availableCoverageZone = str1 + mainText + str2;
-      this.updateSettingAvailableCoverZone(this.availableCoverageZone);
+      // this.updateSettingAvailableCoverZone(this.availableCoverageZone);
     },
     updateSettingCoverZone(coverageZone) {
       db.collection("settingsTest")
@@ -156,7 +156,7 @@ export default {
           console.log("error: ", err);
         });
     },
-    generateAvailableCoverageZoneObject() {
+    getCurrentTimeAndDay() {
       let date = new Date();
       var weekday = new Array(7);
       weekday[0] = "sunday";
@@ -178,7 +178,7 @@ export default {
 
     availableZoneChecker() {
       let availableZonesArray = [];
-      this.generateAvailableCoverageZoneObject();
+      this.getCurrentTimeAndDay();
       this.zones.forEach((zone) => {
         let schedule = zone.schedule;
         if (schedule) {
@@ -200,7 +200,7 @@ export default {
         }
       });
       this.availableZones = availableZonesArray;
-      this.generateAvailableCoverageZoneObject1();
+      // this.generateAvailableCoverageZoneObject1();
     },
     minutes_with_leading_zeros(date) {
       return (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();

@@ -12,6 +12,7 @@
     "algoliasearch": "^4.7.0",
     "core-js": "^3.6.5",
     "firebase": "^8.0.2",
+    "moment-timezone": "^0.5.32",
     "vue": "^2.6.11",
     "vue-faker": "^3.0.0",
     "vue-instantsearch": "^3.4.2",
