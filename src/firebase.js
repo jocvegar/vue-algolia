@@ -1,6 +1,6 @@
-import { firebase } from '@firebase/app'
-import '@firebase/auth'
-import '@firebase/firestore'
+import { firebase } from "@firebase/app";
+import "@firebase/auth";
+import "@firebase/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -11,22 +11,18 @@ const firebaseConfig = {
   storageBucket: "algolia-poc.appspot.com",
   messagingSenderId: "877011140927",
   appId: "1:877011140927:web:b243a8b817f4c160e7938a",
-  measurementId: "G-Y74VELFBJ6"
+  measurementId: "G-Y74VELFBJ6",
 };
 
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(firebaseConfig);
 
 // utils
-const db = firebase.firestore()
-const auth = firebase.auth()
+const db = firebase.firestore();
+const auth = firebase.auth();
 
 // collection references
-const actorsCollection = db.collection('actors')
+const actorsCollection = db.collection("actors");
+const zonesCollection = db.collection("zones");
 
 // export utils/refs
-export {
-  db,
-  auth,
-  firebase,
-  actorsCollection,
-}
+export { db, auth, firebase, actorsCollection, zonesCollection };
