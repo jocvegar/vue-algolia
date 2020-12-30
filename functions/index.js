@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 
@@ -6,6 +8,8 @@ const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
 const client = algoliasearch(APP_ID, ADMIN_KEY);
 const index = client.initIndex("actors");
+let dayNow = "";
+let timeNow = "";
 
 admin.initializeApp();
 
@@ -63,3 +67,77 @@ exports.scheduledFunction = functions.pubsub
     db.doc("timers/timer1").update({ time: admin.firestore.Timestamp.now() });
     return console.log("This will be running at 8:01am and 8:01pm");
   });
+
+exports.scheduledAvailabeZonesaFunction = functions.pubsub
+  .schedule("01 8,20 * * * ")
+  .timeZone("America/Tegucigalpa")
+  .onRun((context) => {
+    generateCurrentDayAndTime();
+    console.log("context", context);
+    // db.collection("zones")
+    //   .where("deleted", "==", false)
+    //   .where("active", "==", true)
+    //   .get()
+    //   .then((zones) => {
+    //     const zonesArray = [];
+    //     zones.docs.forEach((zone) => {
+    //       zonesArray.push(Object.assign({ id: zone.id }, zone.data()));
+    //     });
+    //   })
+    //   .catch(function(error) {
+    //     console.error("Error: ", error);
+    //     return false;
+    //   });
+
+    // db.doc("timers/timer1").update({ time: admin.firestore.Timestamp.now() });
+    // return console.log("This will be running at 8:01am and 8:01pm");
+  });
+
+generateCurrentDayAndTime = () => {
+  let arr = moment()
+    .tz("America/Tegucigalpa")
+    .format("YYYY, MM, DD, HH, mm, ss, 0")
+    .split(",");
+
+  let date = new Date(
+    parseInt(arr[0]),
+    parseInt(arr[1]) - 1,
+    parseInt(arr[2]),
+    parseInt(arr[3]),
+    parseInt(arr[4]),
+    parseInt(arr[5]),
+    parseInt(arr[6])
+  );
+
+  let weekday = new Array(7);
+  weekday[0] = "sunday";
+  weekday[1] = "monday";
+  weekday[2] = "tuesday";
+  weekday[3] = "wednesday";
+  weekday[4] = "thursday";
+  weekday[5] = "friday";
+  weekday[6] = "saturday";
+
+  dayNow = weekday[date.getDay()];
+
+  let h = hours_with_leading_zeros(date);
+  let m = minutes_with_leading_zeros(date);
+  let s = seconds_with_leading_zeros(date);
+
+  timeNow = `${h}:${m}:${s}`;
+
+  console.log("dayNow ", dayNow);
+  console.log("timeNow ", timeNow);
+};
+
+minutes_with_leading_zeros = (date) => {
+  return (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+};
+
+hours_with_leading_zeros = (date) => {
+  return (date.getHours() < 10 ? "0" : "") + date.getHours();
+};
+
+seconds_with_leading_zeros = (date) => {
+  return (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+};
