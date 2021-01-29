@@ -2,33 +2,17 @@
   <v-container class="px-12">
     <v-row class="pa-0 ma-0">
       <v-col cols="12">
-        <h1>
-          Zonas
-          <v-btn @click="generateCoverageZoneObject()" class="ml-8">
-            Actualizar cobertura
-          </v-btn>
-          <v-btn @click="getCurrentTimeAndDay()" class="ml-8">
-            Actualizar cobertura disponible
-          </v-btn>
-          <v-btn @click="availableZoneChecker()" class="ml-8">
-            Actualizar cobertura times
-          </v-btn>
-        </h1>
+        <h1>Zonas</h1>
       </v-col>
-      <v-col>
-        <span>time: {{ timeNow }}</span>
-        <br />
-        <span>day: {{ dayNow }}</span>
-        <br />
-        <span>availableZones: {{ availableZones.length }}</span>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-text-field label="Zona" v-model="newZone.name"></v-text-field>
       </v-col>
-      <v-col>
-        <div v-for="availa in availableZones" :key="availa.id">
-          {{ availa.name }}
-        </div>
-      </v-col>
-      <v-col>
-        {{ availableCoverageZone }}
+      <v-col cols="12" md="6">
+        <v-btn color="primary" elevation="2" large @click="createZone()">
+          Salvar
+        </v-btn>
       </v-col>
     </v-row>
 
@@ -65,6 +49,9 @@ export default {
       availableCoverageZone: "",
       timeNow: "",
       dayNow: "",
+      newZone: {
+        name: "",
+      },
     };
   },
   methods: {
@@ -72,8 +59,7 @@ export default {
       zonesCollection
         .where("deleted", "==", false)
         .where("active", "==", true)
-        .get()
-        .then((zones) => {
+        .onSnapshot((zones) => {
           const zonesArray = [];
           zones.docs.forEach((zone) => {
             zonesArray.push(Object.assign({ id: zone.id }, zone.data()));
@@ -210,6 +196,20 @@ export default {
     },
     seconds_with_leading_zeros(date) {
       return (date.getSeconds() < 10 ? "0" : "") + date.getSeconds();
+    },
+    createZone() {
+      this.newZone.deleted = false;
+      this.newZone.active = true;
+
+      zonesCollection
+        .add(this.newZone)
+        .then(() => {
+          console.log("success!");
+          this.newZone.name = "";
+        })
+        .catch((err) => {
+          console.log("err!", err);
+        });
     },
   },
 };
