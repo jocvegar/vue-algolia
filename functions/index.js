@@ -189,4 +189,14 @@ updateSettingAvailableCoverZone = (availableCovergeZone) => {
     .catch((err) => {
       console.log("error: ", err);
     });
+
+  exports.zoneAfterSave = functions.firestore
+    .document(`zones/{zoneId}`)
+    .onCreate((snapshot) => {
+      const data = snapshot.data();
+      const objectID = snapshot.id;
+      console.log("data", data);
+      console.log("objectID", objectID);
+      return "";
+    });
 };
