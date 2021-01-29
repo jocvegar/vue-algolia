@@ -202,7 +202,7 @@ exports.zoneAfterSave = functions.firestore
     db.collection("zones")
       .doc(objectID)
       .update({
-        updated: "yes",
+        updated: "Noty tu me escuchas?",
       })
       .then(() => {
         console.log("updated succesfully!");
