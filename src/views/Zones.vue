@@ -26,7 +26,9 @@
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title>{{ zone.name }}</v-list-item-title>
-          <v-list-item-title>{{ zone.updated || "No" }}</v-list-item-title>
+          <v-list-item-title>{{
+            zone.updated || "Yo perreo sola"
+          }}</v-list-item-title>
           <v-list-item-subtitle>{{ zone.schedule }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
