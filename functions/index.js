@@ -18,6 +18,10 @@ const db = admin.firestore();
 const { AlphaAnalyticsDataClient } = require("@google-analytics/data");
 const keyFilename = "./credentials.json";
 
+const cors = require("cors")({
+  origin: true,
+});
+
 exports.addToIndex = functions.firestore
   .document(`actors/{actorId}`)
   .onCreate((snapshot) => {
@@ -217,14 +221,17 @@ exports.zoneAfterSave = functions.firestore
   });
 
 exports.analytics = functions.https.onRequest((request, response) => {
-  runReport()
-    .then((data) => {
-      return response.send(JSON.stringify(data));
-    })
-    .catch((error) => {
-      console.log("error :>> ", error);
-      return response.status(500).send(error);
-    });
+  return cors(req, res, () => {
+    console.log("request look =>", request.query.dimension);
+    runReport()
+      .then((data) => {
+        return response.send(JSON.stringify(data));
+      })
+      .catch((error) => {
+        console.log("error :>> ", error);
+        return response.status(500).send(error);
+      });
+  });
 });
 
 runReport = async () => {
