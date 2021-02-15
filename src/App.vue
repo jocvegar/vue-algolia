@@ -23,7 +23,10 @@
 
       <router-link class="white--text mx-5" to="/test">Test</router-link> |
       <router-link class="white--text mx-5" to="/test2">Test 2</router-link> |
-      <router-link class="white--text mx-5" to="/zones">Zones</router-link>
+      <router-link class="white--text mx-5" to="/zones">Zones</router-link> |
+      <router-link class="white--text mx-5" to="/analytics">
+        Analytics
+      </router-link>
     </v-app-bar>
 
     <v-main>

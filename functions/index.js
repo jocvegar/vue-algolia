@@ -221,7 +221,7 @@ exports.zoneAfterSave = functions.firestore
   });
 
 exports.analytics = functions.https.onRequest((request, response) => {
-  return cors(req, res, () => {
+  return cors(request, response, () => {
     console.log("request look =>", request.query.dimension);
     runReport()
       .then((data) => {

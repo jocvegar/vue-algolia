@@ -29,6 +29,11 @@ const routes = [
     name: "Zones",
     component: () => import("../views/Zones.vue"),
   },
+  {
+    path: "/analytics",
+    name: "Analytics",
+    component: () => import("../views/Analytics.vue"),
+  },
 ];
 
 const router = new VueRouter({
