@@ -1,6 +1,15 @@
 <template>
   <v-container>
     <h4>Analytics</h4>
+    <hr />
+    <div v-if="data">
+      <div v-for="row in data.rows" :key="row.value">
+        {{ row }}
+      </div>
+    </div>
+    <div v-else>
+      Loading...
+    </div>
   </v-container>
 </template>
 
@@ -13,12 +22,10 @@ export default {
     };
   },
   mounted() {
-    fetch("http://localhost:5001/algolia-poc/us-central1/analytics")
+    fetch("https://us-central1-algolia-poc.cloudfunctions.net/analytics")
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => (this.data = data))
       .catch((error) => console.log("error ", error));
   },
 };
 </script>
-
-<style></style>
