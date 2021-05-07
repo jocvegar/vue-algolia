@@ -34,13 +34,14 @@ exports.updateIndex = functions.firestore
   .document(`actors/{actorId}`)
   .onUpdate((change) => {
     const newData = change.after.data();
+    console.log("newData :>> ", newData);
     const objectID = change.after.id;
     return index.saveObject({ ...newData, objectID });
   });
 
 exports.deleteIndex = functions.firestore
   .document(`actors/{actorId}`)
-  .onDelete((snapshot) => index.deleteBy({ objectID: snapshot.id }));
+  .onDelete((snapshot) => index.deleteObject(snapshot.id));
 
 exports.exportActorsToJson = functions.https.onRequest((request, response) => {
   admin
