@@ -22,21 +22,21 @@ const cors = require("cors")({
   origin: true,
 });
 
-exports.addToIndex = functions.firestore
-  .document(`actors/{actorId}`)
-  .onCreate((snapshot) => {
-    const data = snapshot.data();
-    const objectID = snapshot.id;
-    return index.saveObject({ ...data, objectID });
-  });
+// exports.addToIndex = functions.firestore
+//   .document(`actors/{actorId}`)
+//   .onCreate((snapshot) => {
+//     const data = snapshot.data();
+//     const objectID = snapshot.id;
+//     return index.saveObject({ ...data, objectID });
+//   });
 
 exports.updateIndex = functions.firestore
   .document(`actors/{actorId}`)
-  .onUpdate((change) => {
-    const newData = change.after.data();
-    console.log("newData :>> ", newData);
-    const objectID = change.after.id;
-    return index.saveObject({ ...newData, objectID });
+  .onWrite((change) => {
+    const data = change.after.data();
+    console.log("data :>> ", data);
+    const objectID = data.id;
+    return index.saveObject({ ...data, objectID });
   });
 
 exports.deleteIndex = functions.firestore
